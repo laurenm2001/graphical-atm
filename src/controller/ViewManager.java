@@ -55,6 +55,20 @@ public class ViewManager {
 			// ignore
 		}
 	}
+	public void logout() {			
+			int choice = JOptionPane.showConfirmDialog(
+				views,
+				"Are you sure?",
+				"Shutdown ATM",
+				JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE
+			);
+			
+			if (choice == 0) {
+				account = null;
+				switchTo(ATM.LOGIN_VIEW);
+		} 
+	}
 	
 	/**
 	 * Switches the active (or visible) view upon request.
