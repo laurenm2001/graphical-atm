@@ -200,4 +200,6 @@ public class LoginView extends JPanel implements ActionListener {
 			System.err.println("ERROR: Action command not found (" + e.getActionCommand() + ")");
 		}
 	}
+	
+	
 }
