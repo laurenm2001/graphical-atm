@@ -38,6 +38,9 @@ public class ViewManager {
 	 * @param pin
 	 */
 	
+	public void updateAcc(BankAccount account) {
+		db.updateAccount(account);
+	}
 	public void login(String accountNumber, char[] pin) {
 		try {
 			account = db.getAccount(Long.valueOf(accountNumber), Integer.valueOf(new String(pin)));
@@ -47,7 +50,8 @@ public class ViewManager {
 				lv.updateErrorMessage("Invalid account number and/or PIN.");
 			} else {
 				sendBankAccount(account, "home");
-				sendBankAccount(account, "deposit");
+				sendBankAccount(account, "withdraw");
+				sendBankAccount(account, "transfer");
 				switchTo(ATM.HOME_VIEW);
 				
 				LoginView lv = ((LoginView) views.getComponents()[ATM.LOGIN_VIEW_INDEX]);
@@ -115,6 +119,14 @@ public class ViewManager {
 		case "deposit":
 			view.DepositView dv = ((view.DepositView) views.getComponents()[ATM.DEPOSIT_VIEW_INDEX]);
 			dv.setBankAccount(account);
+			break;
+		case "withdraw":
+			view.WithdrawView wv = ((view.WithdrawView) views.getComponents()[ATM.WITHDRAW_VIEW_INDEX]);
+			wv.setBankAccount(account);
+			break;
+		case "transfer":
+			view.TransferView tv = ((view.TransferView) views.getComponents()[ATM.TRANSFER_VIEW_INDEX]);
+			tv.setBankAccount(account);
 			break;
 		}
 	}
