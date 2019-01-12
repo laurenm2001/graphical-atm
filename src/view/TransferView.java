@@ -50,7 +50,7 @@ public class TransferView extends JPanel implements ActionListener {
 		this.add(new javax.swing.JLabel("WithdrawView", javax.swing.SwingConstants.CENTER));
 	}
 	private void initAccountRecieve() {
-		JLabel label = new JLabel("Account to Recieve Funds", SwingConstants.CENTER);
+		JLabel label = new JLabel("Account to Recieve", SwingConstants.CENTER);
 		label.setBounds(20, 140, 150, 35);
 		label.setLabelFor(amount);
 		label.setFont(new Font("DialogInput", Font.BOLD, 14));
