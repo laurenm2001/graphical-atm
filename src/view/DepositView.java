@@ -7,7 +7,9 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.sql.ResultSet;
+
 import java.text.DecimalFormat;
+
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -30,7 +32,9 @@ public class DepositView extends JPanel implements ActionListener {
 	private JTextField amount;
 	private JButton cancel;
 	private JButton enter;
+
 	private JLabel errorMessageLabel;
+
 	
 	public DepositView(ViewManager manager) {
 		super();
@@ -39,7 +43,6 @@ public class DepositView extends JPanel implements ActionListener {
 		this.errorMessageLabel = new JLabel("", SwingConstants.CENTER);
 		initialize();
 	}
-	
 	public void updateErrorMessage(String errorMessage) {
 		errorMessageLabel.setText(errorMessage);
 	}
@@ -51,7 +54,9 @@ public class DepositView extends JPanel implements ActionListener {
 		initAmount();
 		initCancel();
 		initEnter();
+
 		initErrorMessageLabel();
+
 		this.add(new javax.swing.JLabel("DepositView", javax.swing.SwingConstants.CENTER));
 	}
 	private void initAmount() {
@@ -89,27 +94,27 @@ public class DepositView extends JPanel implements ActionListener {
 	public void setBankAccount(BankAccount account) {
 		this.account = account;
 		name.setText(account.getUser().getName()); 
+
 		balance.setText(new DecimalFormat("#.##").format(account.getBalance()) + "");
+
+		balance.setText(account.getBalance() + "");
+
 		accountNum.setText(account.getAccountNumber()+"");
 	}
 	private void initCancel() {
 		cancel = new JButton("Cancel");
-		cancel.setBounds(220, 270, 150, 35);
+		cancel.setBounds(220, 230, 100, 35);
 		cancel.addActionListener(this);
 		
 		this.add(cancel);
 	}
 	private void initEnter() {
-<<<<<<< HEAD
-		enter = new JButton("Deposit that money!");
-		enter.setBounds(220, 230, 150, 35);
-=======
 		enter = new JButton("Enter");
 		enter.setBounds(220, 260, 100, 35);
->>>>>>> b137147601b2b1871a765eaef31a261509e47e5d
 		enter.addActionListener(this);
 		
 		this.add(enter);
+
 	}
 	private void initErrorMessageLabel() {
 		errorMessageLabel.setBounds(140, 0, 500, 35);
@@ -117,16 +122,16 @@ public class DepositView extends JPanel implements ActionListener {
 		errorMessageLabel.setForeground(Color.RED);
 		
 		this.add(errorMessageLabel);
+
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		if(source.equals(cancel)){
-			manager.sendBankAccount(account, "home");
 			manager.switchTo(ATM.HOME_VIEW);
 			this.removeAll();
 			this.initialize();
-		
+
 		}else if(source.equals(enter)) {
 			String amountentered = amount.getText();
 			double amountenter = Double.parseDouble(amountentered);
@@ -143,3 +148,6 @@ public class DepositView extends JPanel implements ActionListener {
 		}
 	}
 }
+
+
+

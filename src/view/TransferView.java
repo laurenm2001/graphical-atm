@@ -139,19 +139,24 @@ public class TransferView extends JPanel implements ActionListener {
 			
 			String newacc = recieve.getText();
 			long newaccount = Long.parseLong(newacc);
-			
 			BankAccount transacc = manager.getAccount(newaccount);
 			String amountentered = transfer.getText();
+			double amountenter = Double.parseDouble(amountentered);
 			
-			if(amountentered == "") {
-				updateErrorMessage("Please enter a valid amount");
+			int index = account.transfer(transacc, amountenter);
+			
+			if(index == 3) {
+				boolean result = manager.updateTransAcc(account);
+				boolean result2 = manager.updateTransAcc(transacc);
+				
+				if (result == true && result2 == true) {
+					manager.sendBankAccount(account, "home");
+					manager.switchTo(ATM.HOME_VIEW);
+					this.removeAll();
+					this.initialize();
+				}
 			}else {
-				double amountenter = Double.parseDouble(amountentered);
-				account.transfer(transacc, amountenter);
-				manager.updateAcc(account);
-				manager.updateAcc(transacc);
-				manager.sendBankAccount(account, "home");
-				manager.switchTo(ATM.HOME_VIEW);
+				updateErrorMessage("Please enter a valid amount");
 			}
 			this.removeAll();
 			this.initialize();

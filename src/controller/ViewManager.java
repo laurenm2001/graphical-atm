@@ -42,6 +42,14 @@ public class ViewManager {
 	public void updateAcc(BankAccount account) {
 		db.updateAccount(account);
 	}
+	public boolean updateTransAcc(BankAccount account) {
+		if(db.updateAccount(account)  == true){
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
 
 	public BankAccount getAccount(long accountNumber) {
 		return db.getAccount(accountNumber);
