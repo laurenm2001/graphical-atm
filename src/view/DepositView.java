@@ -100,8 +100,13 @@ public class DepositView extends JPanel implements ActionListener {
 		this.add(cancel);
 	}
 	private void initEnter() {
+<<<<<<< HEAD
 		enter = new JButton("Deposit that money!");
 		enter.setBounds(220, 230, 150, 35);
+=======
+		enter = new JButton("Enter");
+		enter.setBounds(220, 260, 100, 35);
+>>>>>>> b137147601b2b1871a765eaef31a261509e47e5d
 		enter.addActionListener(this);
 		
 		this.add(enter);

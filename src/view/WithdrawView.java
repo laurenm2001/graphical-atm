@@ -7,7 +7,9 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.sql.ResultSet;
+
 import java.text.DecimalFormat;
+
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -30,7 +32,9 @@ public class WithdrawView extends JPanel implements ActionListener {
 	private JTextField amount;
 	private JButton cancel;
 	private JButton enter;
+
 	private JLabel errorMessageLabel;
+
 	
 	public WithdrawView(ViewManager manager) {
 		super();
@@ -50,7 +54,9 @@ public class WithdrawView extends JPanel implements ActionListener {
 		initAmount();
 		initCancel();
 		initEnter();
+
 		initErrorMessageLabel();
+
 		this.add(new javax.swing.JLabel("WithdrawView", javax.swing.SwingConstants.CENTER));
 	}
 	private void initAmount() {
@@ -88,7 +94,11 @@ public class WithdrawView extends JPanel implements ActionListener {
 	public void setBankAccount(BankAccount account) {
 		this.account = account;
 		name.setText(account.getUser().getName()); 
+
 		balance.setText(new DecimalFormat("#.##").format(account.getBalance()) + "");
+
+		balance.setText(account.getBalance() + "");
+
 		accountNum.setText(account.getAccountNumber()+"");
 	}
 	private void initCancel() {
@@ -104,6 +114,7 @@ public class WithdrawView extends JPanel implements ActionListener {
 		enter.addActionListener(this);
 		
 		this.add(enter);
+
 	}
 	private void initErrorMessageLabel() {
 		errorMessageLabel.setBounds(140, 0, 500, 35);
@@ -111,6 +122,7 @@ public class WithdrawView extends JPanel implements ActionListener {
 		errorMessageLabel.setForeground(Color.RED);
 		
 		this.add(errorMessageLabel);
+
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -119,7 +131,7 @@ public class WithdrawView extends JPanel implements ActionListener {
 			manager.switchTo(ATM.HOME_VIEW);
 			this.removeAll();
 			this.initialize();
-		
+
 		}else if(source.equals(enter)) {
 			String amountentered = amount.getText();
 			double amountenter = Double.parseDouble(amountentered);
@@ -136,3 +148,6 @@ public class WithdrawView extends JPanel implements ActionListener {
 		}
 	}
 }
+
+
+

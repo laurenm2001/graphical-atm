@@ -42,6 +42,7 @@ public class ViewManager {
 	public void updateAcc(BankAccount account) {
 		db.updateAccount(account);
 	}
+
 	public BankAccount getAccount(long accountNumber) {
 		return db.getAccount(accountNumber);
 	}
@@ -49,6 +50,7 @@ public class ViewManager {
 	public long getMax() throws SQLException{
 		return db.getMaxAccountNumber();
 	}
+
 	public void login(String accountNumber, char[] pin) {
 		try {
 			account = db.getAccount(Long.valueOf(accountNumber), Integer.valueOf(new String(pin)));
