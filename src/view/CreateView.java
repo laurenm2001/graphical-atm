@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.sql.SQLException;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -304,6 +305,13 @@ public class CreateView extends JPanel implements ActionListener {
 			String daynew = day.getSelectedItem().toString();
 			String yearnew = year.getSelectedItem().toString();
 			String dobnew = yearnew + monthnew + daynew;
+			long accnew = 0;
+			try {
+				accnew = manager.getMax() + 1;
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			if(fnamenew.equals("") ||lnamenew.equals("")||telephonenew.equals("")||addressnew.equals("")
 					|| citynew.equals("") || zipnew.equals("") || pinnew == -1 ||
 					statenew.equals("") || monthnew.equals("") || daynew.equals("")) {
@@ -312,10 +320,11 @@ public class CreateView extends JPanel implements ActionListener {
 			//long accountnumbernew = Database.getMaxAccountNumber() + 1;
 			
 			User hold = new User(pinnew, Integer.parseInt(dobnew), Long.parseLong(telephonenew),fnamenew, lnamenew, addressnew, citynew, statenew, zipnew);
-			BankAccount newacc = new BankAccount('Y', 400000001, 0, hold);
-			/*boolean check = */Database.insertAccount(newacc);
+			BankAccount newacc = new BankAccount('Y',accnew , 0, hold);
+			Database.insertAccount(newacc);
 			
-			manager.switchTo(ATM.LOGIN_VIEW);
+			manager.newnum(newacc);
+			// manager.switchTo(ATM.LOGIN_VIEW);
 			}
 		}else if(source.equals(cancel)){
 			manager.switchTo(ATM.LOGIN_VIEW);

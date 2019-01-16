@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -28,6 +29,8 @@ public class HomeView extends JPanel implements ActionListener {
 	private JLabel balance;
 	private JLabel accountNum;
 	private JButton depositButton;
+	private JButton withdrawButton;
+	private JButton transferButton;
 	/**
 	 * Constructs an instance (or objects) of the HomeView class.
 	 * 
@@ -55,6 +58,8 @@ public class HomeView extends JPanel implements ActionListener {
 		initBalance();
 		initAccountNum();
 		initDeposit();
+		initWithdraw();
+		initTransfer();
 		
 		this.add(new javax.swing.JLabel("HomeView", javax.swing.SwingConstants.CENTER));
 		
@@ -94,6 +99,20 @@ public class HomeView extends JPanel implements ActionListener {
 		
 		this.add(depositButton);
 	}
+	private void initWithdraw() {
+		withdrawButton = new JButton("Withdraw");
+		withdrawButton.setBounds(200, 240, 100, 20);
+		withdrawButton.addActionListener(this);
+		
+		this.add(withdrawButton);
+	}
+	private void initTransfer() {
+		transferButton = new JButton("Transfer");
+		transferButton.setBounds(200, 280, 100, 20);
+		transferButton.addActionListener(this);
+		
+		this.add(transferButton);
+	}
 	
 	private void initBalance() {
 		balance = new JLabel("balance", SwingConstants.RIGHT);
@@ -123,7 +142,7 @@ public class HomeView extends JPanel implements ActionListener {
 	public void setBankAccount(BankAccount account) {
 		this.account = account;
 		name.setText(account.getUser().getName()); 
-		balance.setText(account.getBalance() + "");
+		balance.setText(new DecimalFormat("#.##").format(account.getBalance()) + "");
 		accountNum.setText(account.getAccountNumber()+"");
 	}
 	@Override
@@ -133,7 +152,14 @@ public class HomeView extends JPanel implements ActionListener {
 		if(source.equals(logoutButton)) {
 			manager.logout();
 		}else if(source.equals(depositButton)) {
+			manager.sendBankAccount(account, "deposit");
 			manager.switchTo(ATM.DEPOSIT_VIEW);
+		}else if(source.equals(withdrawButton)) {
+			manager.sendBankAccount(account, "withdraw");
+			manager.switchTo(ATM.WITHDRAW_VIEW);
+		}else if(source.equals(transferButton)) {
+			manager.sendBankAccount(account, "transfer");
+			manager.switchTo(ATM.TRANSFER_VIEW);
 		}
 	}
 
