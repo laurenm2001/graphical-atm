@@ -141,10 +141,10 @@ public class CreateView extends JPanel implements ActionListener {
 		day.setVisible(true);
 		this.add(day);
 		
-		Integer[] years = new Integer[40];
+		Integer[] years = new Integer[120];
 		
 		int j = 0;
-		for (int i = 1990; i<=2018; i++) {
+		for (int i = 2019; i>=1900; i--) {
 			years[j] = i;
 			j++;
 		}
@@ -204,7 +204,9 @@ public class CreateView extends JPanel implements ActionListener {
 		label.setLabelFor(state);
 		label.setFont(new Font("DialogInput", Font.BOLD, 14));
 		
-		String[] states = {"AL", "AK", "AZ", "AR", "CA", "CO", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", };
+		String[] states = {"AL", "AK", "AZ", "AR", "CA", "CO", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", 
+				"OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA",
+				"WA", "WV", "WI", "WY"};
 		state = new JComboBox<String>(states);
 		state.setBounds(280, 400, 95, 30);
 		label.setLabelFor(state);
