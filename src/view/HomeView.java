@@ -25,12 +25,15 @@ public class HomeView extends JPanel implements ActionListener {
 	private JButton logoutButton;
 	private JLabel name;
 	private Database db;					// a reference to the database
+	//Database Database = new Database();
 	private BankAccount account;	
 	private JLabel balance;
 	private JLabel accountNum;
 	private JButton depositButton;
 	private JButton withdrawButton;
 	private JButton transferButton;
+	private JButton closeButton;
+	private JButton InformationButton;
 	/**
 	 * Constructs an instance (or objects) of the HomeView class.
 	 * 
@@ -60,6 +63,8 @@ public class HomeView extends JPanel implements ActionListener {
 		initDeposit();
 		initWithdraw();
 		initTransfer();
+		initInformation();
+		initClose();
 		
 		this.add(new javax.swing.JLabel("HomeView", javax.swing.SwingConstants.CENTER));
 		
@@ -94,24 +99,44 @@ public class HomeView extends JPanel implements ActionListener {
 	 */
 	private void initDeposit() {
 		depositButton = new JButton("Deposit");
-		depositButton.setBounds(200, 100, 100, 20);
+		depositButton.setBounds(150, 100, 200, 50);
+		depositButton.setFont(new Font("DialogInput", Font.BOLD, 20));
 		depositButton.addActionListener(this);
 		
 		this.add(depositButton);
 	}
+	private void initInformation() {
+		InformationButton = new JButton("Information");
+		InformationButton.setBounds(150, 160, 200, 50);
+		InformationButton.setFont(new Font("DialogInput", Font.BOLD, 20));
+		InformationButton.addActionListener(this);
+		
+		this.add(InformationButton);
+	}
 	private void initWithdraw() {
 		withdrawButton = new JButton("Withdraw");
-		withdrawButton.setBounds(200, 240, 100, 20);
+		withdrawButton.setBounds(150, 220, 200, 50);
+		withdrawButton.setFont(new Font("DialogInput", Font.BOLD, 20));
 		withdrawButton.addActionListener(this);
 		
 		this.add(withdrawButton);
 	}
 	private void initTransfer() {
 		transferButton = new JButton("Transfer");
-		transferButton.setBounds(200, 280, 100, 20);
+		transferButton.setBounds(150, 280, 200, 50);
+		transferButton.setFont(new Font("DialogInput", Font.BOLD, 20));
 		transferButton.addActionListener(this);
 		
+		
 		this.add(transferButton);
+	}
+	private void initClose() {
+		closeButton = new JButton("Close Account");
+		closeButton.setBounds(150, 340, 200, 50);
+		closeButton.setFont(new Font("DialogInput", Font.BOLD, 20));
+		closeButton.addActionListener(this);
+		
+		this.add(closeButton);
 	}
 	
 	private void initBalance() {
@@ -160,6 +185,13 @@ public class HomeView extends JPanel implements ActionListener {
 		}else if(source.equals(transferButton)) {
 			manager.sendBankAccount(account, "transfer");
 			manager.switchTo(ATM.TRANSFER_VIEW);
+		}else if(source.equals(InformationButton)) {
+			manager.sendBankAccount(account, "information");
+			manager.switchTo(ATM.INFORMATION_VIEW);
+		}else if(source.equals(closeButton)) {
+			manager.ClosingAcc(account);
+			this.removeAll();			
+			this.initialize();
 		}
 	}
 
