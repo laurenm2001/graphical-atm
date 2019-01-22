@@ -42,6 +42,23 @@ public class ViewManager {
 	public void updateAcc(BankAccount account) {
 		db.updateAccount(account);
 	}
+	
+	public void ClosingAcc(BankAccount account) {
+		int choice = JOptionPane.showConfirmDialog(
+				views,
+				"Are you sure you want to close your account?",
+				"Shutdown ATM",
+				JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE
+			);
+			
+			if (choice == 0) {
+				db.closeAccount(account);
+				switchTo(ATM.LOGIN_VIEW);
+			}
+		
+		
+	}
 	public boolean updateTransAcc(BankAccount account) {
 		if(db.updateAccount(account)  == true){
 			return true;
@@ -63,13 +80,15 @@ public class ViewManager {
 		try {
 			account = db.getAccount(Long.valueOf(accountNumber), Integer.valueOf(new String(pin)));
 			
-			if (account == null) {
+			if (account == null || account.getStatus() == 'N') {
 				LoginView lv = ((LoginView) views.getComponents()[ATM.LOGIN_VIEW_INDEX]);
 				lv.updateErrorMessage("Invalid account number and/or PIN.");
 			} else {
 				sendBankAccount(account, "home");
 				sendBankAccount(account, "withdraw");
 				sendBankAccount(account, "transfer");
+				sendBankAccount(account, "deposit");
+				sendBankAccount(account, "information");
 				switchTo(ATM.HOME_VIEW);
 				
 				LoginView lv = ((LoginView) views.getComponents()[ATM.LOGIN_VIEW_INDEX]);
@@ -133,6 +152,11 @@ public class ViewManager {
 		}
 	}
 	
+	/*public void closing(BankAccount account) {			
+		
+	} 
+}*/
+	
 	public void sendBankAccount(BankAccount account, String view) {
 		switch (view) {
 		case "home":
@@ -150,6 +174,10 @@ public class ViewManager {
 		case "transfer":
 			view.TransferView tv = ((view.TransferView) views.getComponents()[ATM.TRANSFER_VIEW_INDEX]);
 			tv.setBankAccount(account);
+			break;
+		case "information":
+			view.InformationView iv = ((view.InformationView) views.getComponents()[ATM.INFORMATION_VIEW_INDEX]);
+			iv.setBankAccount(account);
 			break;
 		}
 	}
