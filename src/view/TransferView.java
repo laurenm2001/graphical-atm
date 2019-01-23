@@ -33,6 +33,7 @@ public class TransferView extends JPanel implements ActionListener {
 	private JButton cancel;
 	private JButton enter;
 	private JLabel errorMessageLabel;
+	private int checker;
 	
 	public TransferView(ViewManager manager) {
 		super();
@@ -140,10 +141,20 @@ public class TransferView extends JPanel implements ActionListener {
 			String newacc = recieve.getText();
 			long newaccc = Long.parseLong(recieve.getText());
 			String amountentered = transfer.getText();
-			
+			for(int i = 0; i<amountentered.length(); i++) {
+				if(Character.isDigit(amountentered.charAt(i)) == false  && amountentered.charAt(i)!= '.') {
+					checker = 1;
+					break;
+				}else {
+					checker = 0;
+				}
+			}
 			if(newacc.equals("")||amountentered.equals("") || newaccc == account.getAccountNumber()) {
 				updateErrorMessage("Please enter a valid amount/account");
-			}else {
+			}else if(checker == 1) {
+				updateErrorMessage("Please enter a valid amount/account");
+			}
+			else {
 				double amountenter = Double.parseDouble(transfer.getText());
 				long newaccount = Long.parseLong(recieve.getText());
 				BankAccount transacc = manager.getAccount(newaccount);
@@ -156,8 +167,8 @@ public class TransferView extends JPanel implements ActionListener {
 				
 					if(transacc == null) {
 						updateErrorMessage("Please enter a valid account number");
-					}else if(amountenter < .01){
-						updateErrorMessage("Please enter an amount above 0.0");
+					}else if(amountenter < .01 || checker == 1){
+						updateErrorMessage("Please enter a valid amount above 0.0");
 					}
 					else if (result == true && result2 == true) {
 						manager.sendBankAccount(account, "home");
