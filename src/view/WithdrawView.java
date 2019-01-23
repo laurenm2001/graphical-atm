@@ -32,7 +32,7 @@ public class WithdrawView extends JPanel implements ActionListener {
 	private JTextField amount;
 	private JButton cancel;
 	private JButton enter;
-
+	private int checker;
 	private JLabel errorMessageLabel;
 
 	
@@ -80,14 +80,14 @@ public class WithdrawView extends JPanel implements ActionListener {
 	}
 	private void initBalance() {
 		balance = new JLabel("balance", SwingConstants.RIGHT);
-		balance.setBounds(100,0,95,35);
+		balance.setBounds(80,0,95,35);
 		balance.setFont(new Font("DialogInput", Font.BOLD, 14));
 		this.add(balance);
 	}
 	
 	private void initAccountNum() {
 		accountNum = new JLabel("AccountNum", SwingConstants.RIGHT);
-		accountNum.setBounds(200,0,95,35);
+		accountNum.setBounds(180,0,95,35);
 		accountNum.setFont(new Font("DialogInput", Font.BOLD, 14));
 		this.add(accountNum);
 	}
@@ -97,7 +97,7 @@ public class WithdrawView extends JPanel implements ActionListener {
 
 		balance.setText(new DecimalFormat("#.##").format(account.getBalance()) + "");
 
-		balance.setText(account.getBalance() + "");
+	//	balance.setText(account.getBalance() + "");
 
 		accountNum.setText(account.getAccountNumber()+"");
 	}
@@ -134,20 +134,33 @@ public class WithdrawView extends JPanel implements ActionListener {
 
 		}else if(source.equals(enter)) {
 			String amountentered = amount.getText();
-			double amountenter = Double.parseDouble(amountentered);
-			if(amountentered == "") {
-				updateErrorMessage("Please enter a valid amount");
-			}else {
-				account.withdraw(amountenter);
-				manager.updateAcc(account);
-				manager.sendBankAccount(account, "home");
-				manager.switchTo(ATM.HOME_VIEW);
+			for(int i = 0; i<amountentered.length(); i++) {
+				if(Character.isDigit(amountentered.charAt(i)) == false && amountentered.charAt(i)!= '.') {
+					checker = 1;
+					break;
+				}else {
+					checker = 0;
+				}
 			}
-			this.removeAll();
-			this.initialize();
+			if(amountentered.equals("")) {
+				updateErrorMessage("Please enter a valid amount");
+			}else if(checker ==1) {
+				updateErrorMessage("Please enter a valid amount");
+			}
+			else {
+				double amountenter = Double.parseDouble(amountentered);
+				if(amountenter < 0.01 || amountenter > account.getBalance() || checker == 1) {
+					updateErrorMessage("Please enter a valid amount");
+				}else {
+					account.withdraw(amountenter);
+					manager.updateAcc(account);
+					manager.sendBankAccount(account, "home");
+					manager.switchTo(ATM.HOME_VIEW);
+					this.removeAll();
+					this.initialize();
+				}
+			}
+			
 		}
 	}
 }
-
-
-
