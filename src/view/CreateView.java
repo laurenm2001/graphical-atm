@@ -290,9 +290,25 @@ public class CreateView extends JPanel implements ActionListener {
 			String fnamenew = firstname.getText();
 			String lnamenew = lastname.getText();
 			String telephonenew = telephone1.getText() + telephone2.getText() + telephone3.getText();
+			int checker = 0;
+			for(int i = 0; i<telephonenew.length(); i++) {
+				if(Character.isDigit(telephonenew.charAt(i)) == false) {
+					checker = 1;
+					break;
+				}else {
+					checker = 0;
+				}
+			}
 			String addressnew = address.getText();
 			String citynew = city.getText();
 			String zipnew = zip.getText();
+			int zipcheck = 0;
+			for(int i = 0; i<zipnew.length(); i++) {
+				if(Character.isDigit(zipnew.charAt(i)) == false) {
+					zipcheck = 1;
+					break;
+				}
+			}
 			char[] password = passwordfield.getPassword();
 			
 			int pinnew = -1;
@@ -301,7 +317,13 @@ public class CreateView extends JPanel implements ActionListener {
 			} catch (NumberFormatException ex) {
 				// ignore
 			}
-			
+			int newpin = pinnew;
+			int count = 0;
+			while(newpin > 0) {
+				newpin = newpin / 10;
+				count = count + 1; 
+			}
+						
 			String statenew = state.getSelectedItem().toString();
 			String monthnew = month.getSelectedItem().toString();
 			String daynew = day.getSelectedItem().toString();
@@ -318,9 +340,9 @@ public class CreateView extends JPanel implements ActionListener {
 					|| citynew.equals("") || zipnew.equals("") || pinnew == -1 ||
 					statenew.equals("") || monthnew.equals("") || daynew.equals("")) {
 				updateErrorMessage("Please enter all info");
+			}else if (count != 4 || checker == 1 || pinnew == -1 || telephone1.getText().length() != 3 || telephone2.getText().length() != 3 || telephone3.getText().length() != 4 || zipnew.length() != 5 || zipcheck == 1) {
+				updateErrorMessage("Please enter correctly");
 			}else {
-			//long accountnumbernew = Database.getMaxAccountNumber() + 1;
-			
 			User hold = new User(pinnew, Integer.parseInt(dobnew), Long.parseLong(telephonenew),fnamenew, lnamenew, addressnew, citynew, statenew, zipnew);
 			BankAccount newacc = new BankAccount('Y',accnew , 0, hold);
 			Database.insertAccount(newacc);
