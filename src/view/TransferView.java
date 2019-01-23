@@ -54,10 +54,10 @@ public class TransferView extends JPanel implements ActionListener {
 		initEnter();
 		initAccountRecieve();		
 		initErrorMessageLabel();
-		this.add(new javax.swing.JLabel("WithdrawView", javax.swing.SwingConstants.CENTER));
+		this.add(new javax.swing.JLabel("TransferView", javax.swing.SwingConstants.CENTER));
 	}
 	private void initAccountRecieve() {
-		JLabel label = new JLabel("Account to Recieve", SwingConstants.CENTER);
+		JLabel label = new JLabel("Account to Receive", SwingConstants.CENTER);
 		label.setBounds(20, 140, 150, 35);
 		label.setLabelFor(recieve);
 		label.setFont(new Font("DialogInput", Font.BOLD, 14));
@@ -121,7 +121,7 @@ public class TransferView extends JPanel implements ActionListener {
 		this.add(enter);
 	}
 	private void initErrorMessageLabel() {
-		errorMessageLabel.setBounds(140, 0, 500, 35);
+		errorMessageLabel.setBounds(70, 60, 500, 35);
 		errorMessageLabel.setFont(new Font("DialogInput", Font.ITALIC, 14));
 		errorMessageLabel.setForeground(Color.RED);
 		
@@ -136,30 +136,39 @@ public class TransferView extends JPanel implements ActionListener {
 			this.initialize();
 		
 		}else if(source.equals(enter)) {
-			
+			Database database = new Database();
 			String newacc = recieve.getText();
-			long newaccount = Long.parseLong(newacc);
-			BankAccount transacc = manager.getAccount(newaccount);
+			long newaccc = Long.parseLong(recieve.getText());
 			String amountentered = transfer.getText();
-			double amountenter = Double.parseDouble(amountentered);
 			
-			int index = account.transfer(transacc, amountenter);
-			
-			if(index == 3) {
-				boolean result = manager.updateTransAcc(account);
-				boolean result2 = manager.updateTransAcc(transacc);
-				
-				if (result == true && result2 == true) {
-					manager.sendBankAccount(account, "home");
-					manager.switchTo(ATM.HOME_VIEW);
-					this.removeAll();
-					this.initialize();
-				}
+			if(newacc.equals("")||amountentered.equals("") || newaccc == account.getAccountNumber()) {
+				updateErrorMessage("Please enter a valid amount/account");
 			}else {
-				updateErrorMessage("Please enter a valid amount");
+				double amountenter = Double.parseDouble(transfer.getText());
+				long newaccount = Long.parseLong(recieve.getText());
+				BankAccount transacc = manager.getAccount(newaccount);
+			
+				int index = account.transfer(transacc, amountenter);
+				
+				if(index == 3) {
+					boolean result = manager.updateTransAcc(account);
+					boolean result2 = manager.updateTransAcc(transacc);
+				
+					if(transacc == null) {
+						updateErrorMessage("Please enter a valid account number");
+					}else if(amountenter < .01){
+						updateErrorMessage("Please enter an amount above 0.0");
+					}
+					else if (result == true && result2 == true) {
+						manager.sendBankAccount(account, "home");
+						manager.switchTo("HOME_VIEW");
+						this.removeAll();
+						this.initialize();
+						}
+					}else {
+						updateErrorMessage("Please enter a valid amount/account number");
+					}
 			}
-			this.removeAll();
-			this.initialize();
 		}
 	}
 }
