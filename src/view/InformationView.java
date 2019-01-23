@@ -304,7 +304,7 @@ public class InformationView extends JPanel implements ActionListener {
 		statedrop.setSelectedItem(states[j]);
 	}
 	private void initCancel() {
-		cancel = new JButton("Cancel");
+		cancel = new JButton("Return Home");
 		cancel.setBounds(220, 400, 100, 35);
 		cancel.addActionListener(this);
 		
@@ -329,7 +329,7 @@ public class InformationView extends JPanel implements ActionListener {
 		save.addActionListener(this);
 	}
 	private void initErrorMessageLabel() {
-		errorMessageLabel.setBounds(0, 0, 500, 35);
+		errorMessageLabel.setBounds(0, 380, 200, 35);
 		errorMessageLabel.setFont(new Font("DialogInput", Font.ITALIC, 14));
 		errorMessageLabel.setForeground(Color.RED);
 		
@@ -345,6 +345,7 @@ public class InformationView extends JPanel implements ActionListener {
 		
 		}else if(source.equals(enter)) {
 			reinitialize();
+			repaint();
 			
 		}else if(source.equals(cancel2)) {
 			initializeagain();
@@ -364,6 +365,22 @@ public class InformationView extends JPanel implements ActionListener {
 		}else if(source.equals(save)) {
 			
 			String newtele = phone.getText();
+			int checker = 0;
+			for(int i = 0; i<newtele.length(); i++) {
+				if(Character.isDigit(newtele.charAt(i)) == false) {
+					checker = 1;
+					break;
+				}else {
+					checker = 0;
+				}
+			}
+			int telcheck = 0;
+			for(int i = 0; i<newtele.length(); i++) {
+				if(Character.isDigit(newtele.charAt(i)) == false) {
+					telcheck = 1;
+					break;
+				}
+			}
 			long newphone = Long.parseLong(phone.getText());
 			String newcity = city.getText();
 			String newstate = statedrop.getSelectedItem().toString();
@@ -376,10 +393,19 @@ public class InformationView extends JPanel implements ActionListener {
 				// ignore
 			}
 			String newpost = zip.getText();
+			int zipcheck = 0;
+			for(int i = 0; i<newpost.length(); i++) {
+				if(Character.isDigit(newpost.charAt(i)) == false) {
+					zipcheck = 1;
+					break;
+				}
+			}
 			String newaddress = address.getText();
 			
 			if(newtele.equals("") ||newcity.equals("")||newstate.equals("")||newpost.equals("") ||  pinnew == -1) {
 				updateErrorMessage("Please enter all info");
+			}else if(checker == 1 || telcheck == 1 || newpost.length()!= 5 || zipcheck == 1 || newtele.length() != 10) {
+				updateErrorMessage("Please enter correctly");
 			}else {
 			
 				account.getUser().setCity(newcity);
